@@ -1,3 +1,5 @@
-secrets/
 
+.env
 srcs/.env
+
+secrets/
