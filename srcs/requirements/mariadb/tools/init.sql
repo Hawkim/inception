@@ -1,5 +1,3 @@
--- Template init script. These ENV variables will not auto-expand.
--- We'll use docker secrets for the actual passwords.
 
 CREATE DATABASE IF NOT EXISTS wordpress_db;
 CREATE USER IF NOT EXISTS 'wp_user'@'%' IDENTIFIED BY 'placeholder_password';

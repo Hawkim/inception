@@ -2,7 +2,9 @@ version: "3.8"
 
 services:
   nginx:
-    build: requirements/nginx
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
     container_name: nginx
     restart: always
     ports:
@@ -17,7 +19,9 @@ services:
       - .env
 
   wordpress:
-    build: requirements/wordpress
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
     container_name: wordpress
     restart: always
     volumes:
@@ -38,9 +42,14 @@ services:
       - mariadb
     env_file:
       - .env
+    secrets:
+      - wp_admin_password
+      - wp_guest_password
 
   mariadb:
-    build: requirements/mariadb
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
     container_name: mariadb
     restart: always
     volumes:
@@ -71,3 +80,9 @@ volumes:
 
 networks:
   inception:
+
+secrets:
+  wp_admin_password:
+    file: ../secrets/wp_admin_password.txt
+  wp_guest_password:
+    file: ../secrets/wp_guest_password.txt

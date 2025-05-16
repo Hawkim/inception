@@ -1,17 +1,15 @@
-NAME=inception
-
-all: build up
+DC = docker-compose -f srcs/docker-compose.yml --env-file srcs/.env
 
 build:
-	docker-compose -f srcs/docker-compose.yml --env-file srcs/.env build
+	$(DC) build
 
 up:
-	docker-compose -f srcs/docker-compose.yml --env-file srcs/.env up -d
+	$(DC) up -d
 
 down:
-	docker-compose -f srcs/docker-compose.yml --env-file srcs/.env down
+	$(DC) down
 
-clean: down
-	docker system prune -fa --volumes
-
-re: clean all
+re: down
+	@docker system prune -fa --volumes
+	$(MAKE) build
+	$(MAKE) up

@@ -12,11 +12,14 @@ export MYSQL_DATABASE=${MYSQL_DATABASE:-wordpress_db}
 export MYSQL_USER=${MYSQL_USER:-wp_user}
 export MYSQL_PASSWORD=${MYSQL_PASSWORD:-admin}
 export WP_ADMIN_USER=${WP_ADMIN_USER:-mainuser}
-export WP_ADMIN_PASSWORD=${WP_ADMIN_PASSWORD:-securepass}
 export WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL:-admin@example.com}
 export WP_TITLE=${WP_TITLE:-InceptionSite}
 export WP_URL=${WP_URL:-https://localhost}
 export DOMAIN_NAME=${DOMAIN_NAME:-localhost}
+
+# Read secrets securely
+WP_ADMIN_PASSWORD=$(cat /run/secrets/wp_admin_password)
+WP_GUEST_PASSWORD=$(cat /run/secrets/wp_guest_password)
 
 cd /var/www/html
 
@@ -44,7 +47,7 @@ if [ ! -f wp-config.php ]; then
 
   echo "Creating second user 'guest'..."
   wp user create guest guest@${DOMAIN_NAME} \
-    --user_pass=guestpass \
+    --user_pass="${WP_GUEST_PASSWORD}" \
     --role=author \
     --allow-root
 
